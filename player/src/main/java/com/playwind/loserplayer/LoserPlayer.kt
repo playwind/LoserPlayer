@@ -1,5 +1,7 @@
 package com.playwind.loserplayer
 
+import android.view.Surface
+
 /**
  * @author forrest
  * @date 2021/5/27
@@ -15,4 +17,12 @@ class LoserPlayer {
     }
 
     external fun getPlayerInfo(): String
+
+    external fun initView(surface: Surface)
+
+    external fun open(url: String)
+
+    external fun pause()
+
+    external fun resume()
 }

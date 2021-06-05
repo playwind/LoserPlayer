@@ -79,7 +79,27 @@ add_library(
         SHARED
 
         # Provides a relative path to your source file(s).
-        loser-player.cpp)
+        loser-player.cpp
+        Thread.cpp
+        IObserver.cpp
+        PlayData.cpp
+        IDemux.cpp
+        FFDemux.cpp
+        IDecode.cpp
+        FFDecode.cpp
+        IResample.cpp
+        FFResample.cpp
+        IAudioPlay.cpp
+        SLAudioPlay.cpp
+        IVideoView.cpp
+        GLVideoView.cpp
+        Shader.cpp
+        Texture.cpp
+        EGL.cpp
+        IPlayer.cpp
+        IPlayerBuilder.cpp
+        FFPlayerBuilder.cpp
+        IPlayerProxy.cpp)
 
 # 指定编译目标库时，cmake要链接的库
 target_link_libraries(loser-player
@@ -93,8 +113,8 @@ target_link_libraries(loser-player
         avformat
 
         OpenSLES
-        -lEGL
-        -lGLESv2
+        EGL
+        GLESv2
 
         android
         log)
