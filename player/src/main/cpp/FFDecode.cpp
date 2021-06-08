@@ -22,7 +22,10 @@ bool FFDecode::Open(PlayParams params, bool isHardDecode) {
     // 1. 查找解码器
     const AVCodec *codec = avcodec_find_decoder(p->codec_id);
     if (isHardDecode) {
-        codec = avcodec_find_decoder_by_name("h264_mediacodec");
+        if (p->codec_id == AV_CODEC_ID_H264)
+            codec = avcodec_find_decoder_by_name("h264_mediacodec");
+        else if (p->codec_id == AV_CODEC_ID_MPEG4)
+            codec = avcodec_find_decoder_by_name("mpeg4_mediacodec");
     }
 
     if (!codec) {
@@ -94,6 +97,11 @@ bool FFDecode::SendPacket(PlayData playData) {
         return false;
     }
     int re = avcodec_send_packet(codecCtx, (AVPacket *) playData.data);
+    if (re != 0 && !isAudio) {
+        char str[1024] = {0};
+        av_strerror(re, str, sizeof(str) -1);
+        LOGE("avcodec_send_packet failed!!!, %s", str);
+    }
     mux.unlock();
 
     return re == 0;
@@ -117,7 +125,7 @@ PlayData FFDecode::RecvFrame() {
     }
 
     if (!isAudio) {
-        LOGI("received video frame, linesize = %d, width = %d", frame->linesize[0], frame->width);
+        // LOGI("received video frame, linesize = %d, width = %d", frame->linesize[0], frame->width);
     }
 
     PlayData playData;

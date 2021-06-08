@@ -70,6 +70,8 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log)
 
+find_package(oboe REQUIRED CONFIG)
+
 # 配置目标so库编译信息
 add_library(
         # Sets the name of the library.
@@ -99,7 +101,8 @@ add_library(
         IPlayer.cpp
         IPlayerBuilder.cpp
         FFPlayerBuilder.cpp
-        IPlayerProxy.cpp)
+        IPlayerProxy.cpp
+        OboeAudioPlay.cpp)
 
 # 指定编译目标库时，cmake要链接的库
 target_link_libraries(loser-player
@@ -116,5 +119,7 @@ target_link_libraries(loser-player
         EGL
         GLESv2
 
+        oboe::oboe
         android
+        mediandk
         log)

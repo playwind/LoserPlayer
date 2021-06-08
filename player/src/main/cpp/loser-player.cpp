@@ -57,8 +57,10 @@ JNIEXPORT void JNICALL
 Java_com_playwind_loserplayer_LoserPlayer_open(JNIEnv *env, jobject thiz, jstring _url) {
     const char *url = env->GetStringUTFChars(_url, 0);
     auto player = IPlayerProxy::Get();
-    player->Open(url);
-    player->Start();
+    bool re = player->Open(url);
+    if (re) {
+        player->Start();
+    }
 
     env->ReleaseStringUTFChars(_url, url);
 }

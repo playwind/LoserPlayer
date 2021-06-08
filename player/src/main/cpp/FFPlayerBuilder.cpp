@@ -4,6 +4,7 @@
 #include "FFResample.h"
 #include "GLVideoView.h"
 #include "SLAudioPlay.h"
+#include "OboeAudioPlay.h"
 
 void FFPlayerBuilder::InitHard(void *vm) {
     FFDecode::InitHardDecode(vm);
@@ -26,7 +27,8 @@ IVideoView *FFPlayerBuilder::CreateVideoView() {
 }
 
 IAudioPlay *FFPlayerBuilder::CreateAudioPlay() {
-    return new SLAudioPlay();
+    // return new SLAudioPlay();
+    return new OboeAudioPlay();
 }
 
 IPlayer *FFPlayerBuilder::CreatePlayer(unsigned char index) {

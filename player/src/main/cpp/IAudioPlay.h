@@ -25,7 +25,7 @@ public:
     virtual void Clear();
 
     // 最大缓冲帧
-    int maxFrame = 100;
+    int maxFrame = 300;
     int pts = 0;
 protected:
     std::list<PlayData> frames;
