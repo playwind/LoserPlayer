@@ -32,6 +32,8 @@ public:
 
     void Pause(bool pause) override;
 
+    bool IsPause() override;
+
 protected:
     void Run() override {
         IPlayer::Run();

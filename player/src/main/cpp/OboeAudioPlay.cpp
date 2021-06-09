@@ -2,10 +2,13 @@
 #include <AndroidLogger.h>
 
 bool OboeAudioPlay::StartPlay(PlayParams out) {
-    Close();
+    LOGE("AudioPlay start, channels=%d, sampleRate=%d", out.channels, out.sample_rate);
+
+    isPausing = isPause = isExit = false;
+    mAudioParams = out;
     std::lock_guard<std::mutex> lock(mLock);
     oboe::AudioStreamBuilder builder;
-    oboe::Result result = builder.setSharingMode(oboe::SharingMode::Shared)
+    oboe::Result result = builder.setSharingMode(oboe::SharingMode::Exclusive)
             ->setDirection(oboe::Direction::Output)
             ->setPerformanceMode(oboe::PerformanceMode::LowLatency)
             ->setChannelCount(out.channels)
@@ -24,6 +27,7 @@ bool OboeAudioPlay::StartPlay(PlayParams out) {
 
     // Typically, start the stream after querying some stream information, as well as some input from the user
     result = mStream->requestStart();
+
     if (result != oboe::Result::OK) { ;
         LOGE("Failed to requestStart. Error: %s", oboe::convertToText(result));
         return false;
@@ -34,6 +38,7 @@ bool OboeAudioPlay::StartPlay(PlayParams out) {
 
 void OboeAudioPlay::Close() {
     std::lock_guard<std::mutex> lock(mLock);
+    Thread::Stop();
     if (mStream) {
         mStream->stop();
         mStream->close();
@@ -43,12 +48,18 @@ void OboeAudioPlay::Close() {
 
 oboe::DataCallbackResult
 OboeAudioPlay::onAudioReady(oboe::AudioStream *audioStream, void *audioData, int32_t numFrames) {
+    if (!mStream) return oboe::DataCallbackResult::Stop;
+
     // LOGI("onAudioReady: frameSize = %d", numFrames);
-    std::lock_guard<std::mutex> lock(mLock);
 
     auto *buf = (unsigned char *) audioData;
 
-    // memset(buf, 0, numFrames * 2 * 2);
+    // buf大小=帧数*声道数*采样大小
+    memset(buf, 0, numFrames * mAudioParams.channels * 2);
+
+    if (IsPause()) {
+        return oboe::DataCallbackResult::Continue;
+    }
 
     // 这里取出来一共4096个字节=1024个音频帧
     PlayData d = GetData();

@@ -22,6 +22,14 @@ class LoserPlayer {
 
     external fun open(url: String)
 
+    external fun close()
+
+    external fun seek(progress: Double)
+
+    external fun isPaused(): Boolean
+
+    external fun progress(): Double
+
     external fun pause()
 
     external fun resume()

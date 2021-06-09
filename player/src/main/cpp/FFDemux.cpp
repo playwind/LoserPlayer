@@ -133,6 +133,9 @@ PlayParams FFDemux::GetAudioParam() {
 
     audioStreamIndex = index;
     params.param = ic->streams[index]->codecpar;
+    params.channels = params.param->channels;
+    params.sample_rate = params.param->sample_rate;
+
     demuxMutex.unlock();
 
     return params;
@@ -176,4 +179,11 @@ PlayData FFDemux::Read() {
 
     demuxMutex.unlock();
     return playData;
+}
+
+char *FFDemux::GetStreamURL() {
+    if (!ic) {
+        return nullptr;
+    }
+    return ic->url;
 }

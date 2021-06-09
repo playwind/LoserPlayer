@@ -29,6 +29,9 @@ public:
     // 读取一帧数据(由调用者清理)
     virtual PlayData Read() = 0;
 
+    // 获取音频参数
+    virtual char *GetStreamURL() = 0;
+
     // 总时长(毫秒)
     int totalMs = 0;
 protected:

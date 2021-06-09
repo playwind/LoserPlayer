@@ -31,7 +31,6 @@ void IPlayer::Run() {
 }
 
 bool IPlayer::Open(const char *url) {
-    // Close();
     mux.lock();
 
     // 解封装
@@ -113,6 +112,13 @@ bool IPlayer::Seek(double pos) {
     bool re = false;
     if (!demux) return re;
 
+    char *url = demux->GetStreamURL();
+
+    // 非本地文件直接return
+    if (!url || url[0] == 0 || url[0] != '/') {
+        return false;
+    }
+
     // 暂停所有线程
     Pause(true);
 
@@ -189,7 +195,7 @@ void IPlayer::Close() {
     if (demux) demux->Stop();
     if (audioDecode) audioDecode->Stop();
     if (videoDecode) videoDecode->Stop();
-    if (audioPlay) audioPlay->Stop();
+    // if (audioPlay) audioPlay->Stop();
 
     if (videoDecode) videoDecode->Clear();
     if (audioDecode) audioDecode->Clear();

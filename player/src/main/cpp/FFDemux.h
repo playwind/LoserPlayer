@@ -24,6 +24,8 @@ public:
 
     virtual PlayData Read();
 
+    char *GetStreamURL() override;
+
     FFDemux();
 
 private:

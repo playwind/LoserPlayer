@@ -13,7 +13,7 @@ extern "C" {
 
 JNIEXPORT
 jint JNI_OnLoad(JavaVM *vm, void *res) {
-    // 初始化ffmpeg硬解码，创建player
+    // 初始化ffmpeg硬解码
     IPlayerProxy::Get()->Init(vm);
     return JNI_VERSION_1_4;
 }
@@ -57,6 +57,7 @@ JNIEXPORT void JNICALL
 Java_com_playwind_loserplayer_LoserPlayer_open(JNIEnv *env, jobject thiz, jstring _url) {
     const char *url = env->GetStringUTFChars(_url, 0);
     auto player = IPlayerProxy::Get();
+    player->Close();
     bool re = player->Open(url);
     if (re) {
         player->Start();
@@ -74,5 +75,25 @@ Java_com_playwind_loserplayer_LoserPlayer_pause(JNIEnv *env, jobject thiz) {
 JNIEXPORT void JNICALL
 Java_com_playwind_loserplayer_LoserPlayer_resume(JNIEnv *env, jobject thiz) {
     IPlayerProxy::Get()->Pause(false);
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_playwind_loserplayer_LoserPlayer_isPaused(JNIEnv *env, jobject thiz) {
+    return IPlayerProxy::Get()->IsPause();
+}
+
+JNIEXPORT void JNICALL
+Java_com_playwind_loserplayer_LoserPlayer_close(JNIEnv *env, jobject thiz) {
+    IPlayerProxy::Get()->Close();
+}
+
+JNIEXPORT void JNICALL
+Java_com_playwind_loserplayer_LoserPlayer_seek(JNIEnv *env, jobject thiz, jdouble progress) {
+    IPlayerProxy::Get()->Seek(progress);
+}
+
+JNIEXPORT jdouble JNICALL
+Java_com_playwind_loserplayer_LoserPlayer_progress(JNIEnv *env, jobject thiz) {
+    return IPlayerProxy::Get()->GetPlayProgress();
 }
 }

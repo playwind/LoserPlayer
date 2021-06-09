@@ -21,6 +21,7 @@ public:
     virtual bool onError(oboe::AudioStream *audioStream, oboe::Result error) override;
 
 protected:
+    PlayParams mAudioParams;
     std::mutex mLock;
     std::shared_ptr<oboe::AudioStream> mStream;
 };

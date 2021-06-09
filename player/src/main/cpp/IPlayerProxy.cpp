@@ -14,7 +14,6 @@ void IPlayerProxy::Init(void *vm) {
     mux.unlock();
 }
 
-
 bool IPlayerProxy::Open(const char *url) {
     bool re = false;
     mux.lock();
@@ -74,4 +73,14 @@ void IPlayerProxy::Pause(bool pause) {
     mux.lock();
     if (player) player->Pause(pause);
     mux.unlock();
+}
+
+bool IPlayerProxy::IsPause() {
+    bool re = false;
+    mux.lock();
+    if (player) {
+        re = player->IsPause();
+    }
+    mux.unlock();
+    return re;
 }

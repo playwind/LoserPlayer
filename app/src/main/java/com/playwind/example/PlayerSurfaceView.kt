@@ -1,8 +1,6 @@
 package com.playwind.example
 
 import android.content.Context
-import android.media.MediaPlayer
-import android.os.Environment
 import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -46,7 +44,5 @@ class PlayerSurfaceView : SurfaceView, View.OnClickListener, SurfaceHolder.Callb
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         player.initView(holder.surface)
-        //player.open("/sdcard/trailer.mp4")
-        player.open("${Environment.getExternalStorageDirectory().path}/1080.mp4")
     }
 }
