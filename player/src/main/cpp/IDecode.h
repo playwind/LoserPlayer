@@ -1,7 +1,3 @@
-//
-// Created by YQ18105 on 2021/6/2.
-//
-
 #ifndef LOSERPLAYER_IDECODE_H
 #define LOSERPLAYER_IDECODE_H
 

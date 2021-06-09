@@ -11,7 +11,6 @@ import com.playwind.loserplayer.LoserPlayer
  * @author forrest
  * @date 2021/6/4
  * @desc
- * @email forrest_zheng@intretech.com
  */
 class PlayerSurfaceView : SurfaceView, View.OnClickListener, SurfaceHolder.Callback {
     private lateinit var player: LoserPlayer

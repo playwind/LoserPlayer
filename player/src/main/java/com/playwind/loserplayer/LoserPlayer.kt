@@ -6,7 +6,6 @@ import android.view.Surface
  * @author forrest
  * @date 2021/5/27
  * @desc
- * @email forrest_zheng@intretech.com
  */
 class LoserPlayer {
 
