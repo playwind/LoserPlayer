@@ -96,4 +96,14 @@ class FullscreenActivity : AppCompatActivity() {
         }.start()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        player.close()
+    }
+
 }
